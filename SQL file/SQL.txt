@@ -16,4 +16,6 @@ CREATE TABLE entries (
   uploaded_datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
   status ENUM('active', 'inactive') DEFAULT 'active'
 );
+
+use databse assessment_task;
 select * from entries;
