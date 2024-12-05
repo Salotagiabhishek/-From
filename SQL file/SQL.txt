@@ -17,5 +17,7 @@ CREATE TABLE entries (
   status ENUM('active', 'inactive') DEFAULT 'active'
 );
 
-use databse assessment_task;
+-- show databases;
+
+use assessment_task;
 select * from entries;
