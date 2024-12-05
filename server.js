@@ -6,10 +6,8 @@ const path = require('path');
 const app = express();
 const port = 3001;
 
-// Set up multer for file uploads
 const upload = multer({ dest: 'uploads/' });
 
-// Set up MySQL connection
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -17,7 +15,6 @@ const db = mysql.createConnection({
   database: 'assessment_task'
 });
 
-// Connect to MySQL
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL:', err);
@@ -26,12 +23,11 @@ db.connect((err) => {
   console.log('Connected to MySQL');
 });
 
-// Middleware
+
 app.use(express.static('public')); // For serving static files
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Create the table if it doesn't exist
 const createTableQuery = `
   CREATE TABLE IF NOT EXISTS entries (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,13 +58,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Handle form submission
 app.post('/submit', upload.fields([{ name: 'photo' }, { name: 'certificate' }]), (req, res) => {
   const { name, mobile_no, email_id, address, pan_no, aadhar_no } = req.body;
 
   console.log("req.body>>>>>>>>>>>>>>>>>>>>",req.body);
 
-  // Check if files are uploaded
   if (!req.files || !req.files.photo || !req.files.certificate) {
     console.log("if con>>>>>>>>>>>>>>>>>>>>");
     return res.status(400).send('Photo and certificate files are required');
@@ -97,7 +91,6 @@ app.post('/submit', upload.fields([{ name: 'photo' }, { name: 'certificate' }]),
   });
 });
 
-// Get report data
 app.get('/report', (req, res) => {
   db.query('SELECT * FROM entries', (err, results) => {
     if (err) {
@@ -109,7 +102,6 @@ app.get('/report', (req, res) => {
   });
 });
 
-// Update status
 app.post('/update-status', (req, res) => {
   const { id, status } = req.body;
 
@@ -127,7 +119,6 @@ app.post('/update-status', (req, res) => {
   });
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
