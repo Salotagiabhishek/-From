@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS assessment_task;
 CREATE DATABASE assessment_task;
 USE assessment_task;
 
--- Now you can create the table again
 CREATE TABLE entries (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255),
